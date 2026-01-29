@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>e-Billing Project Roadmap</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome (for icons, using standard CDN) -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts: Noto Sans Thai -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: 'Noto Sans Thai', sans-serif;
+        background-color: #f8f9fa; /* Light neutral background */
+        color: #1f2937; /* Dark gray text */
+      }
+
+      /* Custom scrollbar for timeline navigation */
+      .timeline-scroll::-webkit-scrollbar {
+        height: 6px;
+      }
+      .timeline-scroll::-webkit-scrollbar-track {
+        background: #e5e7eb;
+        border-radius: 4px;
+      }
+      .timeline-scroll::-webkit-scrollbar-thumb {
+        background: #9ca3af;
+        border-radius: 4px;
+      }
+
+      /* Chart Container Styling per requirements */
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 100%; /* Parent constraints apply */
+        height: 300px;
+        max-height: 350px;
+      }
+
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 350px;
+        }
+      }
+
+      .active-sprint {
+        border-bottom: 4px solid #3b82f6; /* Blue-500 */
+        background-color: #eff6ff; /* Blue-50 */
+        font-weight: bold;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-2px);
+        transition: all 0.2s ease-in-out;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+    </style>
+
+    <!-- Chosen Palette: Corporate Clean - Warm Gray Background (#f8f9fa), Primary Navy/Blue (#1e3a8a / #3b82f6), Success Green (#10b981), Warning Amber (#f59e0b) -->
+    <!-- Application Structure Plan:
+        1. Hero Section: Executive Summary & Project Goals - Sets the context.
+        2. Interactive Roadmap (Timeline): Horizontal scrollable/selectable steps representing Sprints. Central navigation mechanism.
+        3. Dynamic Detail View: Updates based on selected Sprint.
+           - Left: Key Activities & Goals checklist.
+           - Right: Data Visualization (Task Distribution/Duration) relevant to the phase.
+        4. Role-Based Feature Explorer: Filterable grid showing what each user type (Admin, Vendor, Accounting) gets.
+        5. Project Metrics Dashboard: High-level quantitative summary (Total Weeks, Phases).
+        Why? The report is a linear timeline. An interactive timeline allows users to drill down into specific weeks without being overwhelmed by a wall of text. The role filter helps stakeholders understand "What's in it for me?".
+    -->
+    <!-- Visualization & Content Choices:
+        1. Sprint Duration Chart (Bar): Goal -> Compare effort/time per sprint. Interaction -> Auto-updates or static reference. Justification -> Visualizes the 9-week schedule clearly.
+        2. Task Type Distribution (Doughnut): Goal -> Show nature of work (Backend vs Frontend vs Process). Interaction -> Hover for details. Justification -> Shows balance of work in each sprint.
+        3. Feature Cards: Goal -> List deliverables. Interaction -> Filter by Role. Justification -> Connects technical tasks to business value.
+        CONFIRMATION: NO SVG graphics used (FontAwesome icons used as web fonts). NO Mermaid JS used.
+    -->
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navigation / Header -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <i class="fas fa-project-diagram text-blue-600 text-2xl mr-3"></i>
+            <h1 class="text-xl font-bold text-gray-800">
+              e-Billing Implementation Roadmap
+            </h1>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-500 hidden sm:block"
+              >ระยะเวลาโครงการ: 9 สัปดาห์</span
+            >
+            <button
+              onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+              class="text-blue-600 hover:text-blue-800 font-medium text-sm"
+            >
+              หน้าแรก
+            </button>
+            <button
+              onclick="
+                document
+                  .getElementById('role-explorer')
+                  .scrollIntoView({ behavior: 'smooth' })
+              "
+              class="text-gray-600 hover:text-blue-800 font-medium text-sm"
+            >
+              ฟีเจอร์ตามบทบาท
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 space-y-10">
+      <!-- Executive Summary Section -->
+      <section
+        class="bg-white rounded-xl shadow-sm p-6 sm:p-10 border border-gray-100"
+      >
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            แผนการพัฒนาระบบ e-Billing
+          </h2>
+          <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+            การสร้างระบบวางบิลอิเล็กทรอนิกส์ที่มีประสิทธิภาพ มั่นคง
+            และตรวจสอบได้ เพื่อลดขั้นตอนการทำงาน Manual
+            และเพิ่มความโปร่งใสในองค์กร
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div
+            class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 text-center card-hover"
+          >
+            <div class="text-blue-600 text-3xl mb-3">
+              <i class="fas fa-paper-plane"></i>
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Paperless</h3>
+            <p class="text-sm text-gray-600">
+              ลดการใช้กระดาษและเปลี่ยนกระบวนการทั้งหมดให้เป็น Digital Workflow
+            </p>
+          </div>
+          <div
+            class="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 text-center card-hover"
+          >
+            <div class="text-green-600 text-3xl mb-3">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Secure IAM</h3>
+            <p class="text-sm text-gray-600">
+              จัดการสิทธิ์ผู้ใช้งาน (Admin, Vendor, Accounting)
+              อย่างปลอดภัยด้วยมาตรฐาน JWT
+            </p>
+          </div>
+          <div
+            class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500 text-center card-hover"
+          >
+            <div class="text-purple-600 text-3xl mb-3">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <h3 class="font-bold text-gray-800 mb-2">Transparency</h3>
+            <p class="text-sm text-gray-600">
+              ตรวจสอบสถานะเอกสารได้ทุกขั้นตอน พร้อมระบบ Audit Log ย้อนหลัง
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Timeline & Detail View -->
+      <section id="roadmap-interactive" class="space-y-6">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-2xl font-bold text-gray-900">
+            เส้นทางการดำเนินงาน (Project Roadmap)
+          </h2>
+          <p class="text-gray-600 mt-2">
+            เลือก Sprint
+            ด้านล่างเพื่อดูรายละเอียดกิจกรรมและเป้าหมายในแต่ละช่วงเวลา
+          </p>
+        </div>
+
+        <!-- Timeline Navigation (Horizontal Scroll) -->
+        <div
+          class="flex overflow-x-auto pb-4 gap-4 timeline-scroll snap-x"
+          id="timeline-container"
+        >
+          <!-- JS will populate sprint buttons here -->
+        </div>
+
+        <!-- Dynamic Content Area -->
+        <div
+          class="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white rounded-xl shadow p-6 border border-gray-100 transition-all duration-300"
+          id="sprint-detail-panel"
+        >
+          <!-- Left: Text Content -->
+          <div class="lg:col-span-2 space-y-6">
+            <div class="flex items-center justify-between border-b pb-4">
+              <div>
+                <span
+                  id="detail-sprint-badge"
+                  class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded uppercase tracking-wide"
+                  >Sprint 1</span
+                >
+                <h3
+                  id="detail-title"
+                  class="text-2xl font-bold text-gray-900 mt-1"
+                >
+                  Foundation & IAM
+                </h3>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">ระยะเวลา</div>
+                <div
+                  id="detail-duration"
+                  class="text-lg font-semibold text-gray-800"
+                >
+                  Week 1-2
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-gray-900 flex items-center mb-3">
+                <i class="fas fa-bullseye text-red-500 mr-2"></i> เป้าหมายหลัก
+              </h4>
+              <p
+                id="detail-goal"
+                class="text-gray-700 bg-gray-50 p-4 rounded-lg border border-gray-200"
+              >
+                สร้างโครงสร้างพื้นฐานให้พร้อมสำหรับการพัฒนาส่วนต่อขยาย
+              </p>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-gray-900 flex items-center mb-3">
+                <i class="fas fa-list-check text-blue-500 mr-2"></i>
+                กิจกรรมสำคัญ (Key Activities)
+              </h4>
+              <ul id="detail-activities" class="space-y-3">
+                <!-- JS populates list -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right: Chart Context -->
+          <div
+            class="bg-gray-50 rounded-xl p-4 flex flex-col justify-center items-center border border-gray-100"
+          >
+            <h4 class="text-sm font-semibold text-gray-600 mb-4 text-center">
+              สัดส่วนการทำงานใน Sprint นี้
+            </h4>
+
+            <!-- Chart Container 1 -->
+            <div class="chart-container w-full">
+              <canvas id="sprintTaskChart"></canvas>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-4 text-center">
+              แผนภูมิแสดงการกระจายงานระหว่าง Backend, Frontend และ
+              Database/Infra
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Global Project Timeline Chart -->
+      <section
+        class="bg-white rounded-xl shadow-sm p-6 sm:p-10 border border-gray-100"
+      >
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6"
+        >
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">
+              ภาพรวมระยะเวลา (Timeline Overview)
+            </h2>
+            <p class="text-sm text-gray-500 mt-1">
+              เปรียบเทียบระยะเวลาและการส่งมอบงานในแต่ละ Sprint
+            </p>
+          </div>
+        </div>
+
+        <!-- Chart Container 2 -->
+        <div class="chart-container mx-auto">
+          <canvas id="projectOverviewChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Role-Based Feature Explorer -->
+      <section id="role-explorer" class="scroll-mt-20">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl font-bold text-gray-900">
+            ฟีเจอร์สำหรับผู้ใช้งานแต่ละกลุ่ม
+          </h2>
+          <p class="text-gray-600 mt-2">
+            ระบบถูกออกแบบมาเพื่อรองรับการทำงานของ 3 ส่วนหลัก
+          </p>
+        </div>
+
+        <!-- Role Tabs -->
+        <div class="flex justify-center space-x-2 mb-8">
+          <button
+            onclick="filterRoles('Admin')"
+            id="btn-admin"
+            class="role-btn px-6 py-2 rounded-full font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Admin
+          </button>
+          <button
+            onclick="filterRoles('Vendor')"
+            id="btn-vendor"
+            class="role-btn px-6 py-2 rounded-full font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Vendor (คู่ค้า)
+          </button>
+          <button
+            onclick="filterRoles('Accounting')"
+            id="btn-accounting"
+            class="role-btn px-6 py-2 rounded-full font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Accounting (บัญชี)
+          </button>
+          <button
+            onclick="filterRoles('All')"
+            id="btn-all"
+            class="role-btn px-6 py-2 rounded-full font-medium transition-colors bg-blue-600 text-white shadow-md"
+          >
+            ทั้งหมด
+          </button>
+        </div>
+
+        <!-- Feature Grid -->
+        <div
+          id="feature-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- JS will populate cards -->
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-8 mt-12">
+      <div class="container mx-auto px-4 text-center">
+        <h3 class="text-lg font-semibold text-white mb-2">
+          e-Billing Project Dashboard
+        </h3>
+        <p class="text-sm text-gray-400 mb-4">
+          ข้อมูลอ้างอิงจากแผนการดำเนินงาน 9 สัปดาห์
+        </p>
+        <div class="border-t border-gray-700 pt-4 text-xs text-gray-500">
+          &copy; 2024 e-Billing Development Team. Internal Use Only.
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+      // --- DATA STORE ---
+
+      // Sprint Data from Source Report
+      const sprints = [
+        {
+          id: 1,
+          title: 'Foundation & IAM',
+          subtitle: 'รากฐานระบบและการจัดการผู้ใช้',
+          duration: 'Week 1-2 (2 Weeks)',
+          goal: 'Admin สามารถ Login, ตั้งค่าบริษัท และจัดการสิทธิ์ผู้ใช้งานได้',
+          activities: [
+            'Setup Docker & PostgreSQL Database',
+            'ออกแบบ Database Schema (Users, Roles, Companies)',
+            'ระบบ Login (JWT) และจัดการ Role Management',
+            'หน้า Dashboard Layout ด้วย Material UI',
+          ],
+          // Estimation for chart visualization (Backend, Frontend, Infra/Design)
+          distribution: [40, 30, 30],
+          weeks: 2,
+        },
+        {
+          id: 2,
+          title: 'Onboarding & Billing',
+          subtitle: 'การลงทะเบียนคู่ค้าและเริ่มวางบิล',
+          duration: 'Week 3-4 (2 Weeks)',
+          goal: 'คู่ค้า (Vendor) สมัครสมาชิกได้ และเริ่มสร้างใบวางบิลใบแรกได้',
+          activities: [
+            'Database Schema: Partners, Bills, Bill_Items',
+            'API Upload & Validate File (PDF/XML)',
+            'Vendor Self-Registration Flow',
+            'หน้าจอ Admin อนุมัติคู่ค้า',
+            'หน้าจอสร้างบิล (Create Bill) + อัปโหลดไฟล์',
+          ],
+          distribution: [30, 50, 20],
+          weeks: 2,
+        },
+        {
+          id: 3,
+          title: 'Review Workflow',
+          subtitle: 'การตรวจสอบและอนุมัติ',
+          duration: 'Week 5-6 (2 Weeks)',
+          goal: 'บัญชี/การเงิน สามารถตรวจสอบเอกสารและกดอนุมัติ/ไม่อนุมัติได้',
+          activities: [
+            'Workflow Logic (Draft -> Pending -> Approved/Rejected)',
+            'ระบบ Comment สำหรับ Reject เอกสาร',
+            'หน้าจอรายการรอตรวจ (Pending List)',
+            'ระบบค้นหาเอกสาร (Document Center) & Filter',
+            'ระบบ Export ข้อมูล',
+          ],
+          distribution: [50, 40, 10],
+          weeks: 2,
+        },
+        {
+          id: 4,
+          title: 'Payment & Notification',
+          subtitle: 'การชำระเงินและการแจ้งเตือน',
+          duration: 'Week 7-8 (2 Weeks)',
+          goal: 'จัดการสถานะการจ่ายเงิน และแจ้งเตือนผู้ใช้งานเมื่อสถานะเปลี่ยน',
+          activities: [
+            'ตาราง Payment History & API ตัดยอดจ่าย',
+            'หน้าจอสถานะการจ่ายเงิน (Vendor View)',
+            'Setup Email Service (SendGrid/Nodemailer)',
+            'Trigger แจ้งเตือนเมื่อสถานะเปลี่ยน',
+          ],
+          distribution: [40, 30, 30],
+          weeks: 2,
+        },
+        {
+          id: 5,
+          title: 'Audit & Finalize',
+          subtitle: 'ความปลอดภัย & ตรวจสอบ',
+          duration: 'Week 9 (1 Week)',
+          goal: 'ระบบมีความปลอดภัย ตรวจสอบย้อนหลังได้ และพร้อมใช้งานจริง',
+          activities: [
+            'Middleware Activity Log (Audit Trail)',
+            'หน้าจอ Audit Log Viewer',
+            'Load Testing & Security Scan',
+            'เตรียมคู่มือ (User Manual) & Deployment',
+          ],
+          distribution: [30, 20, 50],
+          weeks: 1,
+        },
+      ];
+
+      // Features mapped to Roles
+      const features = [
+        {
+          role: 'Admin',
+          icon: 'fa-user-cog',
+          title: 'User Management',
+          desc: 'จัดการผู้ใช้งาน, กำหนดสิทธิ์ (Role), ตั้งค่าบริษัท',
+        },
+        {
+          role: 'Admin',
+          icon: 'fa-check-double',
+          title: 'Partner Approval',
+          desc: 'ตรวจสอบและอนุมัติการสมัครของคู่ค้า (Vendor)',
+        },
+        {
+          role: 'Admin',
+          icon: 'fa-history',
+          title: 'Audit Logs',
+          desc: 'ดูประวัติการใช้งานระบบย้อนหลังเพื่อความปลอดภัย',
+        },
+        {
+          role: 'Vendor',
+          icon: 'fa-file-invoice',
+          title: 'Create Bill',
+          desc: 'สร้างใบวางบิล, อัปโหลดไฟล์ PDF/XML',
+        },
+        {
+          role: 'Vendor',
+          icon: 'fa-user-plus',
+          title: 'Self-Register',
+          desc: 'สมัครสมาชิกด้วยตนเองและติดตามสถานะการอนุมัติ',
+        },
+        {
+          role: 'Vendor',
+          icon: 'fa-money-bill-wave',
+          title: 'Payment Status',
+          desc: 'ตรวจสอบสถานะการจ่ายเงินแบบ Real-time',
+        },
+        {
+          role: 'Accounting',
+          icon: 'fa-tasks',
+          title: 'Workflow Review',
+          desc: 'ตรวจสอบเอกสาร, อนุมัติ หรือตีกลับ (Reject) พร้อมเหตุผล',
+        },
+        {
+          role: 'Accounting',
+          icon: 'fa-search',
+          title: 'Document Center',
+          desc: 'ค้นหาเอกสารเก่า, กรองตามวันที่/สถานะ',
+        },
+        {
+          role: 'Accounting',
+          icon: 'fa-file-export',
+          title: 'Data Export',
+          desc: 'ดึงข้อมูลเอกสารเพื่อนำไปประมวลผลต่อ',
+        },
+      ];
+
+      // Global State
+      let currentSprintIndex = 0;
+      let sprintTaskChartInstance = null;
+      let projectOverviewChartInstance = null;
+
+      // --- DOM ELEMENTS ---
+      const timelineContainer = document.getElementById('timeline-container');
+      const detailPanel = document.getElementById('sprint-detail-panel');
+      const featureGrid = document.getElementById('feature-grid');
+      const roleBtns = document.querySelectorAll('.role-btn');
+
+      // --- FUNCTIONS ---
+
+      // 1. Initialize Application
+      document.addEventListener('DOMContentLoaded', () => {
+        renderTimelineNav();
+        renderSprintDetails(0); // Start with Sprint 1
+        renderProjectOverviewChart();
+        filterRoles('All'); // Show all features initially
+      });
+
+      // 2. Render Timeline Navigation Steps
+      function renderTimelineNav() {
+        timelineContainer.innerHTML = '';
+        sprints.forEach((sprint, index) => {
+          const btn = document.createElement('div');
+          btn.className = `flex-shrink-0 cursor-pointer w-48 p-4 rounded-lg border text-left transition-all duration-200 snap-start ${index === 0 ? 'active-sprint border-blue-500 bg-blue-50' : 'bg-white border-gray-200 hover:border-blue-300'}`;
+          btn.onclick = () => selectSprint(index);
+          btn.id = `sprint-nav-${index}`;
+
+          btn.innerHTML = `
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Sprint ${sprint.id}</div>
+                    <div class="font-bold text-gray-800 text-sm truncate">${sprint.title}</div>
+                    <div class="text-xs text-gray-400 mt-2"><i class="far fa-clock"></i> ${sprint.weeks} Weeks</div>
+                `;
+          timelineContainer.appendChild(btn);
+        });
+      }
+
+      // 3. Handle Sprint Selection
+      function selectSprint(index) {
+        currentSprintIndex = index;
+
+        // Update Nav Styles
+        sprints.forEach((_, i) => {
+          const navItem = document.getElementById(`sprint-nav-${i}`);
+          if (i === index) {
+            navItem.className = `flex-shrink-0 cursor-pointer w-48 p-4 rounded-lg border-b-4 text-left transition-all duration-200 snap-start border-blue-500 bg-blue-50 shadow-sm`;
+          } else {
+            navItem.className = `flex-shrink-0 cursor-pointer w-48 p-4 rounded-lg border text-left transition-all duration-200 snap-start bg-white border-gray-200 hover:bg-gray-50 hover:border-blue-300`;
+          }
+        });
+
+        // Update Content with simple animation
+        detailPanel.classList.add('opacity-50', 'scale-95');
+        setTimeout(() => {
+          renderSprintDetails(index);
+          detailPanel.classList.remove('opacity-50', 'scale-95');
+        }, 150);
+      }
+
+      // 4. Render Details & Chart
+      function renderSprintDetails(index) {
+        const data = sprints[index];
+
+        // Text Updates
+        document.getElementById('detail-sprint-badge').innerText =
+          `Sprint ${data.id}`;
+        document.getElementById('detail-title').innerText =
+          `${data.title} - ${data.subtitle}`;
+        document.getElementById('detail-duration').innerText = data.duration;
+        document.getElementById('detail-goal').innerText = data.goal;
+
+        const activityList = document.getElementById('detail-activities');
+        activityList.innerHTML = '';
+        data.activities.forEach((act) => {
+          const li = document.createElement('li');
+          li.className = 'flex items-start text-gray-700 text-sm';
+          li.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-blue-400 mt-1.5 mr-3 flex-shrink-0"></span>${act}`;
+          activityList.appendChild(li);
+        });
+
+        // Update Doughnut Chart
+        updateSprintChart(data.distribution);
+      }
+
+      // 5. Chart.js: Sprint Specific Chart
+      function updateSprintChart(dataArray) {
+        const ctx = document.getElementById('sprintTaskChart').getContext('2d');
+
+        if (sprintTaskChartInstance) {
+          sprintTaskChartInstance.destroy();
+        }
+
+        sprintTaskChartInstance = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Backend & Database', 'Frontend & UI', 'Infra/Test/Doc'],
+            datasets: [
+              {
+                data: dataArray,
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+                borderWidth: 0,
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  font: { family: "'Noto Sans Thai', sans-serif", size: 10 },
+                  boxWidth: 10,
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return ` ${context.label}: ${context.raw}% Effort`;
+                  },
+                },
+              },
+            },
+            cutout: '65%',
+          },
+        });
+      }
+
+      // 6. Chart.js: Global Overview
+      function renderProjectOverviewChart() {
+        const ctx = document
+          .getElementById('projectOverviewChart')
+          .getContext('2d');
+
+        projectOverviewChartInstance = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: sprints.map((s) => `S${s.id}: ${s.title.split(' ')[0]}...`),
+            datasets: [
+              {
+                label: 'ระยะเวลา (สัปดาห์)',
+                data: sprints.map((s) => s.weeks),
+                backgroundColor: '#3b82f6',
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { stepSize: 1 },
+              },
+              x: {
+                grid: { display: false },
+              },
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  title: (items) => sprints[items[0].dataIndex].title,
+                  label: (item) => `Duration: ${item.raw} Weeks`,
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // 7. Role Filter Logic
+      window.filterRoles = function (role) {
+        // Button Styles
+        roleBtns.forEach((btn) => {
+          if (
+            (role === 'All' && btn.id === 'btn-all') ||
+            btn.innerText.includes(role)
+          ) {
+            btn.className =
+              'role-btn px-6 py-2 rounded-full font-medium transition-colors bg-blue-600 text-white shadow-md';
+          } else {
+            btn.className =
+              'role-btn px-6 py-2 rounded-full font-medium transition-colors bg-gray-200 text-gray-700 hover:bg-gray-300';
+          }
+        });
+
+        // Grid Content
+        featureGrid.innerHTML = '';
+        const filtered =
+          role === 'All' ? features : features.filter((f) => f.role === role);
+
+        filtered.forEach((item) => {
+          const card = document.createElement('div');
+          card.className =
+            'bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow card-hover';
+
+          // Color coding by role
+          let iconColor = 'text-gray-500';
+          if (item.role === 'Admin') iconColor = 'text-purple-500 bg-purple-50';
+          if (item.role === 'Vendor') iconColor = 'text-green-500 bg-green-50';
+          if (item.role === 'Accounting')
+            iconColor = 'text-blue-500 bg-blue-50';
+
+          card.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="${iconColor} w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas ${item.icon}"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">${item.title}</h4>
+                            <span class="text-xs uppercase font-semibold text-gray-400 tracking-wide">${item.role}</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">${item.desc}</p>
+                `;
+          featureGrid.appendChild(card);
+        });
+      };
+    </script>
+  </body>
+</html>
