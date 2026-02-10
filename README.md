@@ -15,8 +15,8 @@
 | ฟอนต์ | **Sarabun** + Inter (Google Fonts) — คล้าย TH SarabunPSK |
 | พื้นหลังนอกสไลด์ | สีดำ (#111111) |
 | Navigation | ปุ่มซ้าย/ขวา, Dots, Keyboard (←→ Space Home End), Touch Swipe, F=Fullscreen |
-| Export PPTX | PptxGenJS สร้าง .pptx จริงฝั่ง client → `JBFarmHUB_PPTX-ระบบจัดการฟาร์ม.pptx` |
-| Export PDF | window.print() → Save as PDF → `JBFarmHUB_PDF-ระบบจัดการฟาร์ม.pdf` |
+| Export PPTX | PptxGenJS สร้าง .pptx จริงฝั่ง client → `e-Billing_PPTX-ระบบวางบิล.pptx` |
+| Export PDF | window.print() → Save as PDF → `e-Billing_PDF-ระบบวางบิล.pdf` |
 | Auto-scale | สไลด์ย่อ/ขยายพอดีจออัตโนมัติ (ไม่ขยายเกิน 1:1) |
 | โลโก้ | แสดงมุมบนขวาทุกสไลด์ (class `.slide-logo`, height 110px) |
 | ภาพหน้าปก | ใช้ไฟล์ภาพ PNG แทน emoji (ไม่แตกเมื่อขยาย) |
@@ -130,16 +130,15 @@
 │ [LOGO มุมบนขวา]             │              │
 │                              │              │
 │  [kicker: การนำเสนอ...]     │  🐷 (ภาพ PNG)│
-│  [h1: ชื่อระบบ]              │  300x300px   │
-│  [h2: คำอธิบาย]              │  (พื้นเทา)   │
+│  [h1: e-Billing]             │  🧾 (Emoji/Text)│
+│  [h2: ระบบวางบิลอิเล็กทรอนิกส์]│             │
 │  [sub: รายละเอียด]           │              │
-│  [date-tag: วันที่]          │              │
+│  [date-tag: 16 กุมภาพันธ์ 2569]│              │
 │                              │              │
 └─────────────────────────────┴──────────────┘
 ```
-- ซ้าย 55%: เนื้อหา (`cover-left`, padding 90px) | ขวา 45%: `cover-deco` พื้นเทา + ภาพ PNG
+- ซ้าย 55%: เนื้อหา (`cover-left`, padding 90px) | ขวา 45%: `cover-deco` พื้นเทา + ไอคอน
 - ใช้ `clip-path: polygon()` ตัดขอบเฉียง
-- ภาพหน้าปกใช้ไฟล์ PNG (ไม่ใช่ emoji) เพื่อไม่แตกเมื่อขยาย
 
 ### Slide 2: วัตถุประสงค์ + ผู้ใช้งาน (2 คอลัมน์)
 ```
@@ -161,34 +160,35 @@
 ### Slide 3: โมดูลหลัก (8 โมดูล)
 ```
 ┌──────────────────┬──────────────────┬──────────────────┬──────────────────┐
-│ 🔐 พื้นฐาน       │ 🛒 จัดซื้อ        │ 📦 คลังสินค้า     │ 🐷 การผลิต       │
+│ 🔐 ยืนยันตัวตน   │ 👥 IAM           │ 🤝 ลงทะเบียนคู่ค้า │ � วางบิล&เอกสาร  │
 │                  │                  │                  │                  │
 ├──────────────────┼──────────────────┼──────────────────┼──────────────────┤
-│ 💉 วัคซีน        │ 💰 การขาย        │ 🔧 ซ่อมบำรุง      │ 📊 การเงิน       │
+│ ✅ ตรวจสอบ       │ � จ่ายเงิน       │ �️ ศูนย์เอกสาร    │ ⚙️ ตั้งค่าระบบ    │
 │                  │                  │                  │                  │
 └──────────────────┴──────────────────┴──────────────────┴──────────────────┘
 ```
-- ใช้ `grid-template-columns: repeat(4, 1fr)` 4 คอลัมน์ (gap 32px)
-- แสดงไอคอนขนาดใหญ่ (64px) + ชื่อโมดูล (18px)
+- ใช้ `grid-template-columns: repeat(4, 1fr)` 4 คอลัมน์ (gap 24px)
+- แสดงไอคอนขนาดใหญ่ (56px) + ชื่อโมดูลภาษาไทย (18px)
 - การ์ดพื้นหลังเรียบง่าย (`background: var(--bg2)`) เน้นความสะอาดตา
 
 ### Slide 4: Timeline (แนวนอน จุดต่อจุด สไตล์ขนส่ง)
 ```
 ┌────────────────────────────────────────────┐
-│ [h2: แผนงาน 28 สัปดาห์]                     │
+│ [h2: แผนงาน 9 สัปดาห์]                      │
 │                                            │
-│  🚀──🔐──🛒──📦──🐷──💰──🔧──📊           │
+│  🚀──�──✅──�──🏁                       │
 │  64px วงกลม, เส้น gradient 5px             │
 │  WK (15px) + ชื่อ (18px) + รายละเอียด (15px)│
 │                                            │
-│  ● Phase 1  ● Phase 2  ● Phase 3  ● Finish│
+│  ● Phase 1  ● Phase 2  ● Phase 3-4 ● Phase 5│
 │  (pill 16px, dot 14px)                     │
-│  Tech: Next.js | .NET 10 | PostgreSQL (17px)│
+│  Tech: Next.js | MUI | Express | .NET | Docker│
+│  (pill 17px)                               │
 └────────────────────────────────────────────┘
 ```
 - เส้นแนวนอน gradient สี 5px (accent→green→orange→purple)
-- 8 จุดวงกลม 64px (border ขาว 5px + box-shadow) มีไอคอน emoji 28px
-- ช่องสถานี 185px กว้าง
+- 5 จุดวงกลม 64px (border ขาว 5px + box-shadow) มีไอคอน emoji 28px
+- ช่องสถานี 300px กว้าง
 - ใต้จุด: สัปดาห์ (15px สี phase) + ชื่อ (18px bold) + รายละเอียด 3 บรรทัด (15px)
 - Legend: pill สี 4 Phase (dot 14px + text 16px)
 - Tech Stack: pill 17px แนวนอน
@@ -227,14 +227,14 @@ async function exportPPTX() {
   pptx.layout = 'LAYOUT_WIDE';  // 13.33 x 7.5 in
   // สร้างสไลด์ทีละหน้า ด้วย addText / addShape
   // fontFace ใช้ 'Sarabun' ทุกจุด
-  await pptx.writeFile({ fileName: 'JBFarmHUB_PPTX-ระบบจัดการฟาร์ม.pptx' });
+  await pptx.writeFile({ fileName: 'e-Billing_PPTX-ระบบวางบิล.pptx' });
 }
 ```
 
 ### Export PDF (Print)
 ```javascript
 function exportPDF() {
-  document.title = 'JBFarmHUB_PDF-ระบบจัดการฟาร์ม';  // ชื่อไฟล์ PDF
+  document.title = 'e-Billing_PDF-ระบบวางบิล';  // ชื่อไฟล์ PDF
   // แสดงทุกสไลด์พร้อมกัน (add .active ทุกหน้า)
   window.print();  // เปิด Print dialog → Save as PDF
   // คืนค่ากลับหลัง print (title + active slide เดิม)
@@ -268,15 +268,15 @@ function exportPDF() {
 - มี progress bar, slide counter, fullscreen (F)
 - มี fade-up animation (class="fu") สำหรับ elements
 - มี logo บริษัทมุมบนขวาทุกสไลด์ (class="slide-logo", height 110px)
-- ภาพหน้าปกใช้ไฟล์ PNG (ไม่ใช้ emoji เพราะขยายแล้วแตก)
+- ภาพหน้าปกใช้ไฟล์ PNG หรือ Emoji icon ขนาดใหญ่
 - มีปุ่ม Download 2 ปุ่มมุมบนขวา:
   - PPTX: ใช้ PptxGenJS สร้างไฟล์ .pptx จริง (fontFace: 'Sarabun')
   - PDF: ใช้ window.print() + @media print CSS จัดหน้าสไลด์ละหน้า landscape
 - เนื้อหา 4 สไลด์:
-  1. Cover (ชื่อระบบ + คำอธิบาย + วันที่ + ภาพ PNG ฝั่งขวา clip-path เฉียง)
+  1. Cover (ชื่อระบบ "e-Billing" + คำอธิบาย + วันที่)
   2. วัตถุประสงค์และผู้ใช้งาน (2 คอลัมน์: Objectives ซ้าย, User Groups ขวา)
-  3. โมดูลหลัก (Grid 4x2 ไอคอนใหญ่ + ชื่อโมดูล)
-  4. Timeline แนวนอน จุดต่อจุด สไตล์ขนส่ง (วงกลม 64px + เส้น gradient 5px + legend + tech stack) 28 สัปดาห์
+  3. โมดูลหลัก (Grid 4x2 ไอคอนใหญ่ + ชื่อโมดูลภาษาไทย 8 โมดูล)
+  4. Timeline แนวนอน จุดต่อจุด (วงกลม 64px + เส้น gradient 5px + legend + tech stack) 9 สัปดาห์ 5 Phase
 ```
 
 ---
