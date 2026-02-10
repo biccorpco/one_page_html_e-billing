@@ -971,7 +971,7 @@
         <div class="pad" style="padding: 56px 72px">
           <span class="kicker fu">Slide 4/4</span>
           <h2 class="fu" style="margin-bottom: 40px">
-            แผนการดำเนินงานโครงการ — <em>รวม 9 สัปดาห์</em>
+            แผนการดำเนินงานโครงการ — <em>รวม 12 สัปดาห์</em>
           </h2>
 
           <!-- HORIZONTAL TIMELINE (5 Phase ) -->
@@ -998,7 +998,7 @@
                     var(--accent),
                     var(--green),
                     var(--orange),
-                    var(--orange),
+                    var(--red),
                     var(--purple)
                   );
                   border-radius: 3px;
@@ -1020,7 +1020,7 @@
                   display: flex;
                   flex-direction: column;
                   align-items: center;
-                  width: 300px;
+                  width: 275px;
                 "
               >
                 <div
@@ -1077,7 +1077,7 @@
                   display: flex;
                   flex-direction: column;
                   align-items: center;
-                  width: 300px;
+                  width: 275px;
                 "
               >
                 <div
@@ -1104,7 +1104,7 @@
                       letter-spacing: 0.5px;
                     "
                   >
-                    WK 3–4
+                    WK 3–5
                   </div>
                   <div
                     style="
@@ -1134,7 +1134,7 @@
                   display: flex;
                   flex-direction: column;
                   align-items: center;
-                  width: 300px;
+                  width: 275px;
                 "
               >
                 <div
@@ -1161,7 +1161,7 @@
                       letter-spacing: 0.5px;
                     "
                   >
-                    WK 5–6
+                    WK 6–7
                   </div>
                   <div
                     style="
@@ -1191,7 +1191,7 @@
                   display: flex;
                   flex-direction: column;
                   align-items: center;
-                  width: 300px;
+                  width: 275px;
                 "
               >
                 <div
@@ -1218,7 +1218,7 @@
                       letter-spacing: 0.5px;
                     "
                   >
-                    WK 7–8
+                    WK 8–10
                   </div>
                   <div
                     style="
@@ -1248,7 +1248,64 @@
                   display: flex;
                   flex-direction: column;
                   align-items: center;
-                  width: 300px;
+                  width: 275px;
+                "
+              >
+                <div
+                  style="
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    background: var(--red);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 5px solid #fff;
+                    box-shadow: 0 3px 12px rgba(220, 38, 38, 0.3);
+                  "
+                >
+                  <span style="font-size: 28px">🛠️</span>
+                </div>
+                <div style="margin-top: 14px; text-align: center">
+                  <div
+                    style="
+                      font-size: 15px;
+                      font-weight: 700;
+                      color: var(--red);
+                      letter-spacing: 0.5px;
+                    "
+                  >
+                    WK 11
+                  </div>
+                  <div
+                    style="
+                      font-size: 18px;
+                      font-weight: 700;
+                      color: var(--text);
+                      margin-top: 3px;
+                    "
+                  >
+                    ทดสอบและแก้ไข
+                  </div>
+                  <div
+                    style="
+                      font-size: 15px;
+                      color: var(--text3);
+                      line-height: 1.4;
+                      margin-top: 3px;
+                    "
+                  >
+                    Check bugs<br />Optimize Performance<br />UAT
+                  </div>
+                </div>
+              </div>
+              <!-- Phase 6 -->
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  width: 275px;
                 "
               >
                 <div
@@ -1275,7 +1332,7 @@
                       letter-spacing: 0.5px;
                     "
                   >
-                    WK 9
+                    WK 12
                   </div>
                   <div
                     style="
@@ -1285,7 +1342,7 @@
                       margin-top: 3px;
                     "
                   >
-                    ตรวจสอบ + Go Live
+                    เตรียม Go Live
                   </div>
                   <div
                     style="
@@ -1295,7 +1352,7 @@
                       margin-top: 3px;
                     "
                   >
-                    Activity Log<br />Security Scan<br />🏁 Go Live
+                    User Manual<br />Training<br />🏁 Go Live
                   </div>
                 </div>
               </div>
@@ -1892,7 +1949,7 @@
 
         // 4. Timeline
         let s4 = pptx.addSlide();
-        s4.addText('แผนดำเนินงาน — 5 Phase / 9 สัปดาห์', {
+        s4.addText('แผนดำเนินงาน — 6 Phase / 12 สัปดาห์', {
           x: 0.6,
           y: 0.3,
           w: 12,
@@ -1939,14 +1996,21 @@
             c: ORANGE,
           },
           {
-            wk: 'WK 9',
-            t: 'ตรวจสอบ + Go Live',
-            d: 'Activity Log\nSecurity Scan\n🏁 Go Live',
+            wk: 'WK 9–10',
+            t: 'ทดสอบและแก้ไข',
+            d: 'Check bugs\nOptimize Performance\nUAT',
+            ico: '🛠️',
+            c: RED,
+          },
+          {
+            wk: 'WK 11–12',
+            t: 'เตรียม Go Live',
+            d: 'User Manual\nTraining\n🏁 Go Live',
             ico: '🏁',
             c: PURPLE,
           },
         ].forEach((st, i) => {
-          const x = 1.0 + i * 2.4;
+          const x = 0.5 + i * 2.1;
           s4.addShape(pptx.ShapeType.ellipse, {
             x: x + 0.8,
             y: 2.05,

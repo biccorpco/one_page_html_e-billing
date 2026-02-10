@@ -276,7 +276,7 @@ function exportPDF() {
   1. Cover (ชื่อระบบ "e-Billing" + คำอธิบาย + วันที่)
   2. วัตถุประสงค์และผู้ใช้งาน (2 คอลัมน์: Objectives ซ้าย, User Groups ขวา)
   3. โมดูลหลัก (Grid 4x2 ไอคอนใหญ่ + ชื่อโมดูลภาษาไทย 8 โมดูล)
-  4. Timeline แนวนอน จุดต่อจุด (วงกลม 64px + เส้น gradient 5px + legend + tech stack) 9 สัปดาห์ 5 Phase
+  4. Timeline แนวนอน จุดต่อจุด (วงกลม 64px + เส้น gradient 5px + legend + tech stack) 12 สัปดาห์ 6 Phase
 ```
 
 ---
